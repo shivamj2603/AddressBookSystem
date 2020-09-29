@@ -4,7 +4,7 @@ import java.util.*;
 public class AddressBookMain {
 	
     public static void main(String[] args) {
-    	AddressBook addressBook = new AddressBook();
+    	    AddressBook addressBook = new AddressBook();
 	    System.out.println("Welcome to Address Book");
 	    Scanner sc = new Scanner(System.in);
 	    do {
