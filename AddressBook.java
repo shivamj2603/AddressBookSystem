@@ -60,5 +60,15 @@ public class AddressBook {
 			}
 		}
 	}
-
+	public void deleteContact(String name) {
+		String x = "";
+		for(Contact contact : addressBook) {
+			x = contact.getFirstName() + contact.getLastName();
+			if(name.equals(x)) {
+				addressBook.remove(contact);
+			}
+		}
+	}
 }
+
+
