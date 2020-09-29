@@ -51,7 +51,7 @@ public class AddressBookMain {
 	    	default:
 	    		break;
 	    	} 
-	    	System.out.println("Do you wish to continue(Y/N)?");
+	    	System.out.println("Do you wish to continue/add new Contacts(Y/N)?");
 	    }
             while(sc.next().charAt(0)=='Y');
 	    System.out.println("Thank You");
