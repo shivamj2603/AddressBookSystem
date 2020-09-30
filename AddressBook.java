@@ -2,7 +2,18 @@ package AddressBookSystem;
 import java.util.*;
 
 public class AddressBook {
+	public String name;
+	public AddressBook(String name) {
+		this.name=name;
+	}
+	public Contact contact;
 	public ArrayList<Contact> addressBook = new ArrayList<Contact>();
+	public Contact getContact() {
+		return contact;
+	}
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 	public ArrayList<Contact> getAddressBook() {
 		return addressBook;
 	}
@@ -14,10 +25,10 @@ public class AddressBook {
 	}
 	public void editContact(String name) {
 		Scanner sc = new Scanner(System.in);
-		String x = "";
+		String editName = "";
 		for(Contact contact : addressBook) {
-			x = contact.getFirstName() + contact.getLastName();
-			if(name.equals(x)) {
+			editName = contact.getFirstName() + contact.getLastName();
+			if(name.equals(editName)) {
 				System.out.println("1.Change the address");
 				System.out.println("2.Change the city");
 				System.out.println("3.Change the state");
@@ -56,15 +67,15 @@ public class AddressBook {
 				}	
 			}
 			else {
-				 System.out.println("No such contact exist");
+				System.out.println("No such contact exist");
 			}
 		}
 	}
 	public void deleteContact(String name) {
-		String x = "";
+		String deleteName = "";
 		for(Contact contact : addressBook) {
-			x = contact.getFirstName() + contact.getLastName();
-			if(name.equals(x)) {
+			deleteName = contact.getFirstName() + contact.getLastName();
+			if(name.equals(deleteName)) {
 				addressBook.remove(contact);
 			}
 		}
