@@ -6,11 +6,11 @@ public class AddressBookMain {
 	static int option=0;
 	public static void main(String[] args) {
 		AddressBook[] addressBook = new AddressBook[2];
-		addressBook[0]=new AddressBook("Mumbai");
-		addressBook[1]=new AddressBook("Chennai");
+		addressBook[0] = new AddressBook("Mumbai");
+		addressBook[1] = new AddressBook("Chennai");
 		System.out.println("Welcome to Address Book");
 		Scanner sc = new Scanner(System.in);
-		HashMap<String,AddressBook> addressBookMap = new HashMap<>();
+		HashMap<String, AddressBook> addressBookMap = new HashMap<>();
 		addressBookMap.put("Mumbai", addressBook[0]);
 		addressBookMap.put("Chennai", addressBook[1]);
 		do {

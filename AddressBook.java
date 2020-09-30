@@ -4,7 +4,7 @@ import java.util.*;
 public class AddressBook {
 	public String name;
 	public AddressBook(String name) {
-		this.name=name;
+		this.name = name;
 	}
 	public Contact contact;
 	public ArrayList<Contact> addressBook = new ArrayList<Contact>();
