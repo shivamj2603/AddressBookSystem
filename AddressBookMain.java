@@ -1,91 +1,81 @@
 package AddressBookSystem;
 import java.util.*;
+import java.util.Set;
 import java.util.HashMap;
 
 public class AddressBookMain {
-	static int option=0;
+	static HashMap<String, AddressBook> addressBookMap = new HashMap<>();
+	public static void createAddressBook() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Do you wish to add a new Address Book?(yes/no)");
+		if(input.nextLine().equals("yes")) {
+			do {
+				System.out.println("Enter the name of Address Book");
+				String addressBookName = input.nextLine();
+				addressBookMap.put(addressBookName, new AddressBook("addressBookName"));
+				System.out.println("Do you wish to continue/add new AddressBook(yes/no)?");
+			}while(input.nextLine().equals("yes"));
+		}
+	}
 	public static void main(String[] args) {
-		AddressBook[] addressBook = new AddressBook[2];
-		addressBook[0] = new AddressBook("Mumbai");
-		addressBook[1] = new AddressBook("Chennai");
+		ArrayList<AddressBook> addressbook = new ArrayList<>();
 		System.out.println("Welcome to Address Book");
-		Scanner sc = new Scanner(System.in);
-		HashMap<String, AddressBook> addressBookMap = new HashMap<>();
-		addressBookMap.put("Mumbai", addressBook[0]);
-		addressBookMap.put("Chennai", addressBook[1]);
+		createAddressBook();
+		Scanner input = new Scanner(System.in);
+		input.nextLine();
+		System.out.println("Enter the AddressBookName you wish to access");
+		String addressBookName = input.nextLine();
 		do {
-			sc.nextLine();
 			System.out.println("1.Add a new Contact");
 			System.out.println("2.Edit the contact details");
 			System.out.println("3.Delete a Contact");
-			int choice = sc.nextInt();
-			sc.nextLine();
+			int choice = input.nextInt();
+			input.nextLine();
 			switch(choice) {
 			case 1:
-				System.out.println("Enter the details of person\nEnter 1.Mumbai 2.Chennai");
-				option = sc.nextInt();
-				sc.nextLine();
+				System.out.println("Enter the details of person");
 				System.out.println("Enter the first name");
-				String firstName = sc.nextLine();
+				String firstName = input.nextLine();
 				System.out.println("Enter the last name");
-				String lastName = sc.nextLine();
+				String lastName = input.nextLine();
 				System.out.println("Enter the address");
-				String address = sc.nextLine();
+				String address = input.nextLine();
 				System.out.println("Enter the city name");
-				String city = sc.nextLine();
+				String city = input.nextLine();
 				System.out.println("Enter the state name");
-				String state = sc.nextLine();
+				String state = input.nextLine();
 				System.out.println("Enter the ZIP code");
-				int zip = sc.nextInt();
-				sc.nextLine();
+				int zip = input.nextInt();
+				input.nextLine();
 				System.out.println("Enter the phone number");
-				long phoneNumber = sc.nextLong();
-				sc.nextLine();
+				long phoneNumber = input.nextLong();
+				input.nextLine();
 				System.out.println("Enter the email");
-				String email = sc.nextLine();
+				String email = input.nextLine();
 				Contact contact = new Contact(firstName,lastName,address,city,state,zip,phoneNumber,email);//Created Contact
-				if(option == 1) {
-					addressBook[0].addContact(contact);
-				}
-				else {
-					addressBook[1].addContact(contact);
-				}
+				addressBookMap.get(addressBookName).addContact(contact);
 				break;
 			case 2:
 				System.out.println("Enter the contact name");
-				String name = sc.nextLine();
-				if(option == 1)
-				{
-					addressBook[0].editContact(name);	
-				}
-				else
-				{
-					addressBook[0].editContact(name);
-				}
+				String name = input.nextLine();
+				addressBookMap.get(addressBookName).editContact(name);
 				break;
 			case 3:
 				System.out.println("Enter the contact name");
-				String  contactName = sc.nextLine();
-				if(option == 1)
-				{
-					addressBook[0].deleteContact(contactName);
-				}
-				else
-				{
-					addressBook[1].deleteContact(contactName);
-				}
+				String  contactName = input.nextLine();
+				addressBookMap.get(addressBookName).deleteContact(contactName);
 				break;
 			default:
 				break;
 			} 
-			System.out.println("Do you wish to continue/add new Contacts(Y/N)?");
+			System.out.println("Do you wish to continue(yes/no)?");
 		}
-		while(sc.next().charAt(0) == 'Y');
+		while(input.nextLine().equals("yes"));
+		for(Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
+			System.out.println(entry.getKey() + " : ");
+			System.out.println(entry.getValue().getAddressBook());
+		}
 		System.out.println("Thank You");
-		System.out.println("List of Contacts in Address Book of Mumbai :");
-		System.out.println(addressBook[0].getAddressBook());
-		System.out.println("List of Contacts in Address Book of Chennai :");
-		System.out.println(addressBook[1].getAddressBook());
 	}
 
 }
