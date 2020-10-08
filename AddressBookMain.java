@@ -78,6 +78,74 @@ public class AddressBookMain {
 			System.out.println(contact);
 		}
 	}
+	/**
+	 * Usecase9
+	 * Function displays the count of contacts in a particular city across the multiple address book
+	 * @param city
+	 */
+	public static void countPersonByCity(String city) {
+		long totalCount = 0;
+		for(Map.Entry<String, AddressBook> entries : addressBookMap.entrySet()) {
+			long count = entries.getValue().getAddressBook().stream().filter(p -> p.getCity().equals(city)).count();
+			totalCount += count;
+		}
+		System.out.println(totalCount + " Contacts in " + city);
+	}
+	/**
+	 * Function displays the count of contacts in a particular State across the multiple address book
+	 * @param State
+	 */
+	public static void countPersonByState(String State) {
+		long totalCount = 0;
+		for(Map.Entry<String, AddressBook> entries : addressBookMap.entrySet()) {
+			long count = entries.getValue().getAddressBook().stream().filter(p -> p.getCity().equals(State)).count();
+			totalCount += count;
+		}
+		System.out.println(totalCount + " Contacts in " + State);
+	}
+	public static void viewContacts(Scanner input) {
+		System.out.println("1.View Person By City\n2.View Person By State\n3.Count Person By City\n4.Count Person By State\5.View Contacts in City\n6.View Contacts in State");
+		int option = input.nextInt();
+		input.nextLine();
+		switch(option) {
+		case 1:
+			System.out.println("Enter the city");
+			String city = input.nextLine();
+			viewPersonByCity(city);
+			break;
+		case 2:
+			System.out.println("Enter the state");
+			String state = input.nextLine();
+			viewPersonByState(state);
+			break;
+		case 3: 
+			System.out.println("Enter the city");
+			String City = input.nextLine();
+			countPersonByCity(City);
+			break;
+		case 4:
+			System.out.println("Enter the state");
+			String State = input.nextLine();
+			viewPersonByState(State);
+			break;
+		case 5:
+			System.out.println("Enter the city and the name");
+			String Citie = input.nextLine();
+			String name = input.next();
+			input.nextLine();
+			searchPersonByCity(name, Citie);
+			break;
+		case 6:
+			System.out.println("Enter the city and the name");
+			String States = input.nextLine();
+			String names = input.next();
+			input.nextLine();
+			searchPersonByState(names, States);
+			break;
+		default:
+			break;
+		}
+	}
 	public static void main(String[] args) {
 		ArrayList<AddressBook> addressbook = new ArrayList<>();
 		System.out.println("Welcome to Address Book");
@@ -134,6 +202,7 @@ public class AddressBookMain {
 			System.out.println("Do you wish to continue(yes/no)?");
 		}
 		while(input.nextLine().equals("yes"));
+		viewContacts(input);
 		System.out.println("Thank You");
 	}
 
