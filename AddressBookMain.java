@@ -105,7 +105,7 @@ public class AddressBookMain {
 		System.out.println(totalCount + " Contacts in " + State);
 	}
 	public static void viewContacts(Scanner input) {
-		System.out.println("1.View Person By City\n2.View Person By State\n3.Count Person By City\n4.Count Person By State\5.View Contacts in City\n6.View Contacts in State");
+		System.out.println("1.View Person By City\n2.View Person By State\n3.Count Person By City\n4.Count Person By State\5.View Contacts in City\n6.View Contacts in State\n7.Sort By Name\n8.Sort By Zipcode");
 		int option = input.nextInt();
 		input.nextLine();
 		switch(option) {
@@ -143,6 +143,12 @@ public class AddressBookMain {
 			input.nextLine();
 			searchPersonByState(names, States);
 			break;
+		case 7:
+			sortByName();
+			break;
+		case 8:
+			sortByZip();
+			break;
 		default:
 			break;
 		}
@@ -152,9 +158,14 @@ public class AddressBookMain {
 	 * The function sorts the contacts on the basis of their names in alphabetical order
 	 * 
 	 */
-	public void sortByName() {
+	public static void sortByName() {
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
 			Collections.sort(entry.getValue().getAddressBook(),new SortEntryByName());
+		}
+	}
+	public static void sortByZip() {
+		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
+			Collections.sort(entry.getValue().getAddressBook(),new SortEntryByZip());
 		}
 	}
 	public static void main(String[] args) {
