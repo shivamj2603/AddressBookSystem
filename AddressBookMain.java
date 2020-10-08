@@ -50,6 +50,34 @@ public class AddressBookMain {
 			System.out.println(contact);
 		}
 	}
+	/**
+	 * UseCase8_Part1
+	 * This function returns the list of people residing in a particular City
+	 * @param city
+	 */
+	public static void viewPersonByCity(String city) {
+		List<Contact> list = new ArrayList<Contact>();
+		for(Map.Entry<String, AddressBook> entries : addressBookMap.entrySet()) {
+			list = entries.getValue().getAddressBook().stream().filter(p -> p.getCity().equals(city)).collect(Collectors.toList());
+		}
+		for(Contact contact : list) {
+			System.out.println(contact);
+		}
+	}
+	/**
+	 * UseCase8_Part2
+	 * This function returns the list of people residing in a particular State
+	 * @param state
+	 */
+	public static void viewPersonByState(String state) {
+		List<Contact> list = new ArrayList<Contact>();
+		for(Map.Entry<String, AddressBook> entries : addressBookMap.entrySet()) {
+			list = entries.getValue().getAddressBook().stream().filter(p -> p.getState().equals(state)).collect(Collectors.toList());
+		}
+		for(Contact contact : list) {
+			System.out.println(contact);
+		}
+	}
 	public static void main(String[] args) {
 		ArrayList<AddressBook> addressbook = new ArrayList<>();
 		System.out.println("Welcome to Address Book");
