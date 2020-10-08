@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 public class AddressBookMain {
 	static HashMap<String, AddressBook> addressBookMap = new HashMap<>();
@@ -144,6 +145,16 @@ public class AddressBookMain {
 			break;
 		default:
 			break;
+		}
+	}
+	/**
+	 * Usecase 11
+	 * The function sorts the contacts on the basis of their names in alphabetical order
+	 * 
+	 */
+	public void sortByName() {
+		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
+			Collections.sort(entry.getValue().getAddressBook(),new SortEntryByName());
 		}
 	}
 	public static void main(String[] args) {

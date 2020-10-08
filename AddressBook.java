@@ -21,6 +21,12 @@ public class AddressBook {
 		this.addressBook = addressBook;
 	}
 	public void addContact(Contact contact) {
+		for(int i = 0; i<addressBook.size(); i++) {	
+			if(addressBook.get(i).equals(contact)) {
+				System.out.println("The person already exists!!!");
+				return;
+			}
+		}
 		addressBook.add(contact);
 	}
 	public void editContact(String name) {
