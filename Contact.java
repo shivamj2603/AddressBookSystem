@@ -72,6 +72,23 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	/**
+	 * Usecase 7
+	 * Check whether the two contacts are same or not on the basis of their names
+	 *
+	 */
+	@Override
+	public boolean equals(Object object) {
+	    boolean result = false;
+	    if(object == this) {
+		return true;
+	    }
+	    Contact contact = (Contact)object;
+	    if(contact.firstName.equals(this.firstName) && contact.lastName.equals(this.lastName)) {
+		result = true;
+	    }
+	    return result;
+	}
 	@Override
 	public String toString() {
 		return this.getFirstName() + " " + this.getLastName() + " " + this.getAddress() + " " + this.getPhoneNumber() + " " + this.getEmail();

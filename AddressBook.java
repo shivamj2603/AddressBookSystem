@@ -31,10 +31,9 @@ public class AddressBook {
 			if(name.equals(editName)) {
 				System.out.println("1.Change the address");
 				System.out.println("2.Change the city");
-				System.out.println("3.Change the state");
-				System.out.println("4.Change the ZIP code");
-				System.out.println("5.Change the phone number");
-				System.out.println("6.Change the Email id");
+				System.out.println("3.Change the ZIP code");
+				System.out.println("4.Change the phone number");
+				System.out.println("5.Change the Email id");
 				int choice = sc.nextInt();
 				sc.nextLine();
 				switch(choice) {
@@ -46,21 +45,17 @@ public class AddressBook {
 				String city = sc.nextLine();
 				contact.setCity(city);
 				break;
-				case 3 : System.out.println("Enter new state");
-				String state = sc.nextLine();
-				contact.setAddress(state);
-				break;
-				case 4 : System.out.println("Enter new ZIP code");
+				case 3 : System.out.println("Enter new ZIP code");
 				int zip = sc.nextInt();
 				contact.setZip(zip);
 				sc.nextLine();
 				break;
-				case 5 : System.out.println("Enter new phone number");
+				case 4 : System.out.println("Enter new phone number");
 				long phone = sc.nextLong();
 				sc.nextLine();
 				contact.setPhoneNumber(phone);
 				break;
-				case 6 : System.out.println("Enter new Email id");
+				case 5 : System.out.println("Enter new Email id");
 				String email = sc.nextLine();
 				contact.setEmail(email);
 				break;

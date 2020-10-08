@@ -1,7 +1,10 @@
 package AddressBookSystem;
-import java.util.*;
-import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBookMain {
 	static HashMap<String, AddressBook> addressBookMap = new HashMap<>();
@@ -10,7 +13,7 @@ public class AddressBookMain {
 		System.out.println("Do you wish to add a new Address Book?(yes/no)");
 		if(input.nextLine().equals("yes")) {
 			do {
-				System.out.println("Enter the name of Address Book");
+				System.out.println("Enter the State of Address Book");
 				String addressBookName = input.nextLine();
 				addressBookMap.put(addressBookName, new AddressBook("addressBookName"));
 				System.out.println("Do you wish to continue/add new AddressBook(yes/no)?");
@@ -23,7 +26,7 @@ public class AddressBookMain {
 		createAddressBook();
 		Scanner input = new Scanner(System.in);
 		input.nextLine();
-		System.out.println("Enter the AddressBookName you wish to access");
+		System.out.println("Enter the State whose AddressBook you wish to access");
 		String addressBookName = input.nextLine();
 		do {
 			System.out.println("1.Add a new Contact");
@@ -35,9 +38,11 @@ public class AddressBookMain {
 			case 1:
 				System.out.println("Enter the details of person");
 				System.out.println("Enter the first name");
-				String firstName = input.nextLine();
+				String firstName = input.next();
+				input.nextLine();
 				System.out.println("Enter the last name");
-				String lastName = input.nextLine();
+				String lastName = input.next();
+				input.nextLine();
 				System.out.println("Enter the address");
 				String address = input.nextLine();
 				System.out.println("Enter the city name");
@@ -71,12 +76,9 @@ public class AddressBookMain {
 			System.out.println("Do you wish to continue(yes/no)?");
 		}
 		while(input.nextLine().equals("yes"));
-		for(Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
-			System.out.println(entry.getKey() + " : ");
-			System.out.println(entry.getValue().getAddressBook());
-		}
 		System.out.println("Thank You");
 	}
+
 
 }
 
