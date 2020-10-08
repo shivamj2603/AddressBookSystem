@@ -20,6 +20,36 @@ public class AddressBookMain {
 			}while(input.nextLine().equals("yes"));
 		}
 	}
+	/**
+	 * Usecase 7_Part1
+	 * Function checks for the contact in a particular city using the contact's name across the entire address book
+	 * @param name
+	 * @param city
+	 */
+	public static void searchPersonByCity(String name, String city) {
+		List<Contact> list = new ArrayList<Contact>();
+		for(Map.Entry<String, AddressBook> entries : addressBookMap.entrySet()) {
+			list = entries.getValue().getAddressBook().stream().filter(p -> p.getCity().equals(city)).filter(p ->(p.getFirstName() + p.getLastName()).equals(name)).collect(Collectors.toList());
+		}
+		for(Contact contact : list) {
+			System.out.println(contact);
+		}
+	}
+	/**
+	 * UseCase7_Part2
+	 * Function checks for the contact in a particular State using the contact's name across the entire address book
+	 * @param name
+	 * @param state
+	 */
+	public static void searchPersonByState(String name, String state) {
+		List<Contact> list = new ArrayList<Contact>();
+		for(Map.Entry<String, AddressBook> entries : addressBookMap.entrySet()) {
+			list = entries.getValue().getAddressBook().stream().filter(p -> p.getState().equals(state)).filter(p ->(p.getFirstName() + p.getLastName()).equals(name)).collect(Collectors.toList());
+		}
+		for(Contact contact : list) {
+			System.out.println(contact);
+		}
+	}
 	public static void main(String[] args) {
 		ArrayList<AddressBook> addressbook = new ArrayList<>();
 		System.out.println("Welcome to Address Book");
