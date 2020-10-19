@@ -8,18 +8,56 @@ import java.util.stream.Collectors;
 import java.util.Collections;
 
 public class AddressBookMain {
-	static HashMap<String, AddressBook> addressBookMap = new HashMap<>();
-	public static void createAddressBook() {
-		Scanner input = new Scanner(System.in);
-		System.out.println("Do you wish to add a new Address Book?(yes/no)");
-		if(input.nextLine().equals("yes")) {
+
+	public static Map<String, AddressBook> addressBookMap = new HashMap<>();
+	public static Map<String, Map<String, AddressBook>> stateBookMap = new HashMap<>();
+	public void addData(Scanner input) {
+		String contactChoice, cityChoice, stateChoice;
+		do {
+			System.out.println("Enter the name of state");
+			String stateForMap = input.nextLine();
+
 			do {
-				System.out.println("Enter the State of Address Book");
-				String addressBookName = input.nextLine();
-				addressBookMap.put(addressBookName, new AddressBook("addressBookName"));
-				System.out.println("Do you wish to continue/add new AddressBook(yes/no)?");
-			}while(input.nextLine().equals("yes"));
-		}
+				System.out.println("Enter the name of city");
+				String cityForMap = input.nextLine();
+				AddressBook addBook = new AddressBook(cityForMap);
+				for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
+					if (entry.getKey().equals(cityForMap)) {
+						addBook = entry.getValue();
+					}
+				}
+				addressBookMap.put(cityForMap, addBook);
+				do {
+					System.out.println("Enter the details of person");
+					System.out.println("Enter the first name");
+					String firstName = input.nextLine();
+					System.out.println("Enter the last name");
+					String lastName = input.nextLine();
+					System.out.println("Enter the address");
+					String address = input.nextLine();
+					System.out.println("Enter the ZIP code");
+					int zip = input.nextInt();
+					System.out.println("Enter the phone number");
+					long phoneNumber = input.nextLong();
+					input.nextLine();
+					System.out.println("Enter the email");
+					String email = input.nextLine();
+					Contact c = new Contact(firstName, lastName, address, cityForMap, stateForMap, zip, phoneNumber, email);
+					for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
+						if (entry.getKey().equalsIgnoreCase(cityForMap)) {
+							entry.getValue().addContact(c);
+						}
+					}
+					System.out.println("Do you want to add contact again?");
+					contactChoice = input.nextLine();
+				} while (contactChoice.equals("yes"));
+				System.out.println("Do you want to add another city");
+				cityChoice = input.nextLine();
+			} while (cityChoice.equals("yes"));
+			stateBookMap.put(stateForMap, addressBookMap);
+			System.out.println("Do you want to add for another state");
+			stateChoice = input.nextLine();
+		} while (stateChoice.equals("yes"));
 	}
 	/**
 	 * Usecase 7_Part1
@@ -72,11 +110,13 @@ public class AddressBookMain {
 	 */
 	public static void viewPersonByState(String state) {
 		List<Contact> list = new ArrayList<Contact>();
-		for(Map.Entry<String, AddressBook> entries : addressBookMap.entrySet()) {
-			list = entries.getValue().getAddressBook().stream().filter(p -> p.getState().equals(state)).collect(Collectors.toList());
-		}
-		for(Contact contact : list) {
-			System.out.println(contact);
+		for(Map.Entry<String,Map<String, AddressBook>> entries : stateBookMap.entrySet()) {
+			if(entries.getKey().equals(state)) {
+				for(Map.Entry<String,AddressBook> Entry : addressBookMap.entrySet()) {
+					System.out.println("The List for city "+ Entry.getKey()+" is :");
+					Entry.getValue().viewList();
+				}
+			}
 		}
 	}
 	/**
@@ -93,6 +133,7 @@ public class AddressBookMain {
 		System.out.println(totalCount + " Contacts in " + city);
 	}
 	/**
+	 * UseCase10
 	 * Function displays the count of contacts in a particular State across the multiple address book
 	 * @param State
 	 */
@@ -104,55 +145,6 @@ public class AddressBookMain {
 		}
 		System.out.println(totalCount + " Contacts in " + State);
 	}
-	public static void viewContacts(Scanner input) {
-		System.out.println("1.View Person By City\n2.View Person By State\n3.Count Person By City\n4.Count Person By State\5.View Contacts in City\n6.View Contacts in State\n7.Sort By Name\n8.Sort By Zipcode");
-		int option = input.nextInt();
-		input.nextLine();
-		switch(option) {
-		case 1:
-			System.out.println("Enter the city");
-			String city = input.nextLine();
-			viewPersonByCity(city);
-			break;
-		case 2:
-			System.out.println("Enter the state");
-			String state = input.nextLine();
-			viewPersonByState(state);
-			break;
-		case 3: 
-			System.out.println("Enter the city");
-			String City = input.nextLine();
-			countPersonByCity(City);
-			break;
-		case 4:
-			System.out.println("Enter the state");
-			String State = input.nextLine();
-			viewPersonByState(State);
-			break;
-		case 5:
-			System.out.println("Enter the city and the name");
-			String Citie = input.nextLine();
-			String name = input.next();
-			input.nextLine();
-			searchPersonByCity(name, Citie);
-			break;
-		case 6:
-			System.out.println("Enter the city and the name");
-			String States = input.nextLine();
-			String names = input.next();
-			input.nextLine();
-			searchPersonByState(names, States);
-			break;
-		case 7:
-			sortByName();
-			break;
-		case 8:
-			sortByZip();
-			break;
-		default:
-			break;
-		}
-	}
 	/**
 	 * Usecase 11
 	 * The function sorts the contacts on the basis of their names in alphabetical order
@@ -163,19 +155,70 @@ public class AddressBookMain {
 			Collections.sort(entry.getValue().getAddressBook(),new SortEntryByName());
 		}
 	}
+	/**
+	 * UseCase 12
+	 * Function sorts the contacts on the basis of zipcode
+	 * 
+	 */
 	public static void sortByZip() {
 		for(Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {
 			Collections.sort(entry.getValue().getAddressBook(),new SortEntryByZip());
 		}
 	}
-	public static void main(String[] args) {
-		ArrayList<AddressBook> addressbook = new ArrayList<>();
-		System.out.println("Welcome to Address Book");
-		createAddressBook();
-		Scanner input = new Scanner(System.in);
+	public static void viewContacts(Scanner input) {
+		System.out.println("1.View Person By City\n2.View Person By State\n3.Count Person By City\n4.Count Person By State\5.View Contacts in City\n6.View Contacts in State\n7.Sort By Name\n8.Sort By Zipcode");
+		int option = input.nextInt();
 		input.nextLine();
-		System.out.println("Enter the State whose AddressBook you wish to access");
-		String addressBookName = input.nextLine();
+		while(true) {
+			switch(option) {
+			case 1:
+				System.out.println("Enter the city");
+				String city = input.nextLine();
+				viewPersonByCity(city);
+				break;
+			case 2:
+				System.out.println("Enter the state");
+				String state = input.nextLine();
+				viewPersonByState(state);
+				break;
+			case 3: 
+				System.out.println("Enter the city");
+				String City = input.nextLine();
+				countPersonByCity(City);
+				break;
+			case 4:
+				System.out.println("Enter the state");
+				String State = input.nextLine();
+				viewPersonByState(State);
+				break;
+			case 5:
+				System.out.println("Enter the city and the name");
+				String Citie = input.nextLine();
+				String name = input.next();
+				input.nextLine();
+				searchPersonByCity(name, Citie);
+				break;
+			case 6:
+				System.out.println("Enter the city and the name");
+				String States = input.nextLine();
+				String names = input.next();
+				input.nextLine();
+				searchPersonByState(names, States);
+				break;
+			case 7:
+				sortByName();
+				break;
+			case 8:
+				sortByZip();
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	public static void main(String[] args) {
+		System.out.println("Welcome to Address Book");
+		Scanner input = new Scanner(System.in);
 		do {
 			System.out.println("1.Add a new Contact");
 			System.out.println("2.Edit the contact details");
@@ -183,40 +226,36 @@ public class AddressBookMain {
 			int choice = input.nextInt();
 			input.nextLine();
 			switch(choice) {
-			case 1:
-				System.out.println("Enter the details of person");
-				System.out.println("Enter the first name");
-				String firstName = input.next();
-				input.nextLine();
-				System.out.println("Enter the last name");
-				String lastName = input.next();
-				input.nextLine();
-				System.out.println("Enter the address");
-				String address = input.nextLine();
-				System.out.println("Enter the city name");
-				String city = input.nextLine();
-				System.out.println("Enter the state name");
-				String state = input.nextLine();
-				System.out.println("Enter the ZIP code");
-				int zip = input.nextInt();
-				input.nextLine();
-				System.out.println("Enter the phone number");
-				long phoneNumber = input.nextLong();
-				input.nextLine();
-				System.out.println("Enter the email");
-				String email = input.nextLine();
-				Contact contact = new Contact(firstName,lastName,address,city,state,zip,phoneNumber,email);//Created Contact
-				addressBookMap.get(addressBookName).addContact(contact);
+			case 1:  
+				new AddressBookMain().addData(input);//Add Contact Details
 				break;
 			case 2:
-				System.out.println("Enter the contact name");
-				String name = input.nextLine();
-				addressBookMap.get(addressBookName).editContact(name);
+				System.out.println("Enter the name to edit contact");
+				String editName = input.nextLine();
+				System.out.println("Enter the city");
+				String city2 = input.nextLine();
+				for (Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {   
+					if(entry.getKey().equalsIgnoreCase(city2)) {
+						entry.getValue().editContact(editName);
+					}
+					else {
+						System.out.println("The addressbook does not exist.");
+					}
+				}
 				break;
 			case 3:
-				System.out.println("Enter the contact name");
-				String  contactName = input.nextLine();
-				addressBookMap.get(addressBookName).deleteContact(contactName);
+				System.out.println("Enter the name to delete");
+				String deleteName = input.nextLine();
+				System.out.println("Enter the city");
+				String city1 = input.nextLine();
+				for (Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {   
+					if(entry.getKey().equalsIgnoreCase(city1)) {
+						entry.getValue().deleteContact(deleteName);
+					}
+					else {
+						System.out.println("The addressbook does not exist.");
+					}
+				}
 				break;
 			default:
 				break;
@@ -227,8 +266,4 @@ public class AddressBookMain {
 		viewContacts(input);
 		System.out.println("Thank You");
 	}
-
-
 }
-
-

@@ -1,7 +1,6 @@
 package AddressBookSystem;
 
 public class Contact {
-
 	public Contact(String firstName, String lastName, String address, String city, String state, int zip,
 			long phoneNumber, String email) {
 		super();
@@ -14,7 +13,6 @@ public class Contact {
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 	}
-
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -91,7 +89,6 @@ public class Contact {
 	}
 	@Override
 	public String toString() {
-		return this.getFirstName() + " " + this.getLastName() + " " + this.getAddress() + " " + this.getPhoneNumber() + " " + this.getEmail();
+		return this.getFirstName() + this.getLastName() + "," + this.getAddress() + "," + this.getCity() + "," + this.getPhoneNumber() + "," + this.getEmail();
 	}
-
 }

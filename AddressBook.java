@@ -6,14 +6,8 @@ public class AddressBook {
 	public AddressBook(String name) {
 		this.name = name;
 	}
-	public Contact contact;
+
 	public ArrayList<Contact> addressBook = new ArrayList<Contact>();
-	public Contact getContact() {
-		return contact;
-	}
-	public void setContact(Contact contact) {
-		this.contact = contact;
-	}
 	public ArrayList<Contact> getAddressBook() {
 		return addressBook;
 	}
@@ -21,8 +15,8 @@ public class AddressBook {
 		this.addressBook = addressBook;
 	}
 	public void addContact(Contact contact) {
-		for(int i = 0; i<addressBook.size(); i++) {	
-			if(addressBook.get(i).equals(contact)) {
+		for(int iteration = 0; iteration < addressBook.size(); iteration++) {	
+			if(addressBook.get(iteration).equals(contact)) {
 				System.out.println("The person already exists!!!");
 				return;
 			}
@@ -34,12 +28,11 @@ public class AddressBook {
 		String editName = "";
 		for(Contact contact : addressBook) {
 			editName = contact.getFirstName() + contact.getLastName();
-			if(name.equals(editName)) {
+			if(name.equalsIgnoreCase(editName)) {
 				System.out.println("1.Change the address");
-				System.out.println("2.Change the city");
-				System.out.println("3.Change the ZIP code");
-				System.out.println("4.Change the phone number");
-				System.out.println("5.Change the Email id");
+				System.out.println("2.Change the ZIP code");
+				System.out.println("3.Change the phone number");
+				System.out.println("4.Change the Email id");
 				int choice = sc.nextInt();
 				sc.nextLine();
 				switch(choice) {
@@ -47,21 +40,17 @@ public class AddressBook {
 				String address = sc.nextLine();
 				contact.setAddress(address);
 				break;
-				case 2 : System.out.println("Enter new city");
-				String city = sc.nextLine();
-				contact.setCity(city);
-				break;
-				case 3 : System.out.println("Enter new ZIP code");
+				case 2 : System.out.println("Enter new ZIP code");
 				int zip = sc.nextInt();
 				contact.setZip(zip);
 				sc.nextLine();
 				break;
-				case 4 : System.out.println("Enter new phone number");
+				case 3 : System.out.println("Enter new phone number");
 				long phone = sc.nextLong();
 				sc.nextLine();
 				contact.setPhoneNumber(phone);
 				break;
-				case 5 : System.out.println("Enter new Email id");
+				case 4 : System.out.println("Enter new Email id");
 				String email = sc.nextLine();
 				contact.setEmail(email);
 				break;
@@ -76,11 +65,18 @@ public class AddressBook {
 		String deleteName = "";
 		for(Contact contact : addressBook) {
 			deleteName = contact.getFirstName() + contact.getLastName();
-			if(name.equals(deleteName)) {
+			if(name.equalsIgnoreCase(deleteName)) {
 				addressBook.remove(contact);
 			}
 		}
 	}
+	public void viewList() {
+		for(Contact contact : addressBook) {
+			System.out.println(contact);
+		}
+	}
 }
+
+
 
 
