@@ -89,6 +89,6 @@ public class Contact {
 	}
 	@Override
 	public String toString() {
-		return this.getFirstName() + this.getLastName() + "," + this.getAddress() + "," + this.getCity() + "," + this.getPhoneNumber() + "," + this.getEmail();
+		return this.getFirstName() + this.getLastName() + "," + this.getAddress() + "," + this.getState() + "," + this.getCity() + "," + this.getZip() + "," + this.getPhoneNumber() + "," + this.getEmail();
 	}
 }
