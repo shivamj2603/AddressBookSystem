@@ -1,4 +1,8 @@
 package AddressBookSystem;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.Collections;
 
 public class AddressBookMain {
-
 	public static Map<String, AddressBook> addressBookMap = new HashMap<>();
 	public static Map<String, Map<String, AddressBook>> stateBookMap = new HashMap<>();
 	public void addData(Scanner input) {
@@ -166,10 +169,10 @@ public class AddressBookMain {
 		}
 	}
 	public static void viewContacts(Scanner input) {
-		System.out.println("1.View Person By City\n2.View Person By State\n3.Count Person By City\n4.Count Person By State\5.View Contacts in City\n6.View Contacts in State\n7.Sort By Name\n8.Sort By Zipcode");
+		System.out.println("1.View Person By City\n2.View Person By State\n3.Count Person By City\n4.Count Person By State\5.View Contacts in City\n6.View Contacts in State\n7.Sort By Name\n8.Sort By Zipcode\n9.Exit");
 		int option = input.nextInt();
 		input.nextLine();
-		while(true) {
+		while(option != 9) {
 			switch(option) {
 			case 1:
 				System.out.println("Enter the city");
@@ -211,11 +214,48 @@ public class AddressBookMain {
 			case 8:
 				sortByZip();
 				break;
-			default:
+			case 9:
 				break;
 			}
 		}
 	}
+	/**
+	 * Usecase 13
+	 * Function reads data from a file
+	 * 
+	 */
+	public static void readAddressBook() {
+		try {
+			Path path = Paths.get("./addressbook.txt");
+			List <String> lines = Files.readAllLines(path);
+			for(String line : lines) {
+				System.out.println(line);
+			}
+		} catch (IOException exception) {
+
+			exception.printStackTrace();
+		}
+		System.out.println("Data Read Successfully");
+	}
+	/**
+	 * Usecase 13 
+	 * Function writes data to a file
+	 * @param map
+	 */
+	public static void writeAddressBook(Map<String, AddressBook> map) {
+		StringBuffer buffer = new StringBuffer("");
+		for(String city : map.keySet()) {
+			map.get(city).getAddressBook().forEach(c -> buffer.append(c.toString().concat("\n")));
+		}
+		try {
+			Path path = Paths.get("./addressbook.txt");
+			Files.write(path, buffer.toString().getBytes());
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+		System.out.println("Data Written Successfully");
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book");
 		Scanner input = new Scanner(System.in);
@@ -264,6 +304,8 @@ public class AddressBookMain {
 		}
 		while(input.nextLine().equals("yes"));
 		viewContacts(input);
+		writeAddressBook(addressBookMap);
+		readAddressBook();
 		System.out.println("Thank You");
 	}
 }
