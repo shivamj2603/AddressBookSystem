@@ -1,4 +1,6 @@
 package AddressBookSystem;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
 import java.util.Collections;
 
 public class AddressBookMain {
@@ -49,6 +54,8 @@ public class AddressBookMain {
 					for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
 						if (entry.getKey().equalsIgnoreCase(cityForMap)) {
 							entry.getValue().addContact(c);
+							//write contact to CSV file
+							writeContactAsCSV(c);
 						}
 					}
 					System.out.println("Do you want to add contact again?");
@@ -255,6 +262,40 @@ public class AddressBookMain {
 		}
 		System.out.println("Data Written Successfully");
 	}
+	public static void writeContactAsCSV(Contact contact) 
+	{ 
+		Path path = Paths.get("addressBook.csv");
+		try { 
+			FileWriter outputfile = new FileWriter(path.toFile(), true); 
+			CSVWriter writer = new CSVWriter(outputfile); 
+			//add data to csv
+			String[] data = contact.toString().split(",");
+			writer.writeNext(data);
+			// closing writer connection 
+			writer.close(); 
+		} 
+		catch (IOException exception) { 
+			exception.printStackTrace(); 
+		} 
+	} 
+	public static void readAddressBookCSV() 
+	{ 
+	    try {  
+	        FileReader filereader = new FileReader(Paths.get("addressBook.csv").toFile()); 
+	        CSVReader csvReader = new CSVReaderBuilder(filereader).build();  
+	        List<String[]> contactData = csvReader.readAll(); 
+	        // print Data 
+	        for (String[] row : contactData) { 
+	            for (String cell : row) { 
+	                System.out.print(cell + "\t"); 
+	            } 
+	            System.out.println(); 
+	        } 
+	    } 
+	    catch (Exception exception) { 
+	        exception.printStackTrace(); 
+	    } 
+	} 
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book");
@@ -306,6 +347,7 @@ public class AddressBookMain {
 		viewContacts(input);
 		writeAddressBook(addressBookMap);
 		readAddressBook();
+		readAddressBookCSV();
 		System.out.println("Thank You");
 	}
 }
